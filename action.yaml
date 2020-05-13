@@ -1,0 +1,40 @@
+name: Elasticsearch Deploy
+description: Deploy an AWS Elasctisearch service cluster using Terraform
+inputs:
+  workspace:
+    description: 'Terraform Workspace'
+    required: true
+
+  project:
+    description: 'Project this Service is part of'
+    required: true
+
+  owner:
+    description: 'Project owner/team'
+    required: true
+
+  email:
+    description: 'Project email address'
+    required: true
+
+  destroy:
+    description: 'Runs Terraform destroy to destroy existing resources created by this action'
+    required: false
+    default: false
+
+  region:
+    description: 'AWS region to deploy to'
+    required: false
+    default: "us-west-2"
+
+  es_domain:
+    description: 'AWS Elasticsearch service domain'
+    required: true
+
+outputs:
+  es_arn:
+    description: 'Name of the created function'
+  
+runs:
+  using: docker
+  image: Dockerfile
