@@ -1,12 +1,5 @@
 /* vim: ts=2:sw=2:sts=0:expandtab */
 
-##
-# We default to not running in 'deploy' mode.  This can be overwritten on
-# the CLI. E.g. terraform apply -var=deploy=true
-variable "deploy" {
-  default = false
-}
-
 # Provider for apfm-dev, apfm-qa, apfm-stage, apfm-prod
 provider "aws" {
   version = "~> 2.40"

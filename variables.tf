@@ -20,3 +20,4 @@ variable "es_snapshot_hour" {
   default     = 23
   description = "Hour during which the service takes an automated daily snapshot of the indices in the domain. UTC Time"
 }
+
