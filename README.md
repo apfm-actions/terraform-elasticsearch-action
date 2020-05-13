@@ -29,3 +29,9 @@ resource "a_terraform_resource" "example" {
   paramter2 = var.bar
 }
 ```
+
+## URL used to create this action
+
+- https://www.terraform.io/docs/providers/aws/r/elasticsearch_domain.html
+- https://docs.aws.amazon.com/cli/latest/reference/es/create-elasticsearch-domain.html
+- https://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/aes-supported-instance-types.html
