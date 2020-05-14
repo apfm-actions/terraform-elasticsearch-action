@@ -38,7 +38,7 @@ inputs:
 
   es_instance_type:
     description: 'AWS Instance Type to deploy the cluster'
-    default: 't2.medium'
+    default: 't2.medium.elasticsearch'
     required: true
 
   es_snapshot_hour:
