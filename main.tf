@@ -11,6 +11,6 @@ resource "aws_elasticsearch_domain" "es_domain" {
   }
 
   tags = {
-    ES_Domain = var.domain
+    ES_Domain = var.es_domain
   }
 }
