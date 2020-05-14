@@ -61,6 +61,16 @@ inputs:
     default: 10
     required: false
 
+  es_log_type:
+    description: 'A type of Elasticsearch log. Valid values: INDEX_SLOW_LOGS, SEARCH_SLOW_LOGS, ES_APPLICATION_LOGS'
+    default: 'INDEX_SLOW_LOGS'
+    required: true
+
+  es_source_ip:
+    description: 'List of IPs valid to connect to the cluster (Only Public cluster)'
+    default: null
+    required: false
+
 outputs:
   es_arn:
     description: 'Name of the created function'
