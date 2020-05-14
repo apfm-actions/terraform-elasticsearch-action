@@ -31,6 +31,21 @@ inputs:
     description: 'AWS Elasticsearch service domain'
     required: true
 
+  es_version:
+    description: 'Elasticsearch version number'
+    required: true
+    default: '7.4'
+
+  es_instance_type:
+    description: 'AWS Instance Type to deploy the cluster'
+    default: 't2.medium'
+    required: true
+
+  es_snapshot_hour:
+    description: 'Hour during which the service takes an automated daily snapshot of the indices in the domain. UTC Time'
+    default: 23
+    required: true
+
 outputs:
   es_arn:
     description: 'Name of the created function'
