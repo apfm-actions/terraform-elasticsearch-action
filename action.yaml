@@ -20,12 +20,12 @@ inputs:
   destroy:
     description: 'Runs Terraform destroy to destroy existing resources created by this action'
     required: false
-    default: false
+    default: 'false'
 
   region:
     description: 'AWS region to deploy to'
     required: false
-    default: "us-west-2"
+    default: 'us-west-2'
 
   es_domain:
     description: 'AWS Elasticsearch service domain'
@@ -43,8 +43,23 @@ inputs:
 
   es_snapshot_hour:
     description: 'Hour during which the service takes an automated daily snapshot of the indices in the domain. UTC Time'
-    default: 23
+    default: '23'
     required: true
+
+  es_ebs_enabled:
+    description: 'Support EBS Storage'
+    default: 'true'
+    required: true
+
+  es_volume_type:
+    description: 'Kind of storage to use (standard, gp2, io1)'
+    default: 'gp2'
+    required: false
+
+  es_volume_size:
+    description: 'Size of the volume for ES Storage'
+    default: 10
+    required: false
 
 outputs:
   es_arn:

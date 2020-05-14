@@ -10,6 +10,12 @@ resource "aws_elasticsearch_domain" "es_domain" {
     automated_snapshot_start_hour = var.es_snapshot_hour
   }
 
+ebs_options {
+    ebs_enabled = var.es_ebs_enabled
+    volume_type = (var.es_ebs_enabled == true ? var.es_volume_type : null)
+    volume_size = (var.es_ebs_enabled == true ? var.es_volume_size : null)
+}
+
   tags = {
     ES_Domain = var.es_domain
   }
