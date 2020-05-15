@@ -35,8 +35,13 @@ EOF
 # IAM Policy creation (sourceIP)
 data "aws_iam_policy_document" "es_public_source" {
   statement {
+
+    principals {
+      type        = "AWS"
+      identifiers = ["*"]
+    }
     actions = [
-     "es:*"
+      "es:*"
     ]
 
     resources = [
@@ -50,7 +55,6 @@ data "aws_iam_policy_document" "es_public_source" {
       values = split(",", var.es_source_ip)
     }
   }
-
 }
 
 # Cluster creation
@@ -81,10 +85,10 @@ resource "aws_elasticsearch_domain" "es_domain" {
   }
 
   tags = {
-    es_domain     = var.es_domain
-    project = var.project_name
-    owner   = var.project_owner
-    email   = var.project_email
+    es_domain  = var.es_domain
+    project    = var.project_name
+    owner      = var.project_owner
+    email      = var.project_email
     created_by = "terraform-elasticsearch-action"
   }
 }
