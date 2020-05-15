@@ -32,6 +32,29 @@ resource "aws_cloudwatch_log_resource_policy" "es_log_resource_policy" {
 EOF
 }
 
+# IAM Policy creation (sourceIP)
+data "aws_iam_policy_document" "es_public_source" {
+  statement {
+    actions = [
+     "es:*"
+    ]
+
+    resources = [
+      "arn:aws:es:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:domain/${var.es_domain}/*"
+    ]
+
+    condition {
+      test     = "IpAddress"
+      variable = "aws:SourceIp"
+
+      values = [
+        split(",", var.es_source_ip)
+      ]
+    }
+  }
+
+}
+
 # Cluster creation
 
 resource "aws_elasticsearch_domain" "es_domain" {
@@ -52,22 +75,7 @@ resource "aws_elasticsearch_domain" "es_domain" {
     volume_size = (var.es_ebs_enabled == true ? var.es_volume_size : null)
   }
 
-  access_policies = <<EOF
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Action": "es:*",
-      "Principal": "*",
-      "Effect": "Allow",
-      "Resource": "arn:aws:es:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:domain/${var.es_domain}/*",
-      "Condition": {
-        "IpAddress": {"aws:SourceIp": [${var.es_source_ip}]}
-      }
-    }
-  ]
-}
-EOF
+  access_policies = data.aws_iam_policy_document.es_public_source.json
 
   log_publishing_options {
     cloudwatch_log_group_arn = aws_cloudwatch_log_group.es_log_group.arn
