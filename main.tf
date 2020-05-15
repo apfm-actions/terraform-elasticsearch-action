@@ -82,6 +82,9 @@ resource "aws_elasticsearch_domain" "es_domain" {
 
   tags = {
     es_domain     = var.es_domain
-    es_created_by = "terraform-elasticsearch-action"
+    project = var.project_name
+    owner   = var.project_owner
+    email   = var.project_email
+    created_by = "terraform-elasticsearch-action"
   }
 }
