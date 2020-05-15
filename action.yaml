@@ -41,6 +41,11 @@ inputs:
     default: 't2.medium.elasticsearch'
     required: true
 
+  es_instance_count:
+    description: 'How many instance will compound this cluster'
+    default: '1'
+    required: true
+
   es_snapshot_hour:
     description: 'Hour during which the service takes an automated daily snapshot of the indices in the domain. UTC Time'
     default: '23'
