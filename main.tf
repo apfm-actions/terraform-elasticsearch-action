@@ -47,9 +47,7 @@ data "aws_iam_policy_document" "es_public_source" {
       test     = "IpAddress"
       variable = "aws:SourceIp"
 
-      values = [
-        split(",", var.es_source_ip)
-      ]
+      values = split(",", var.es_source_ip)
     }
   }
 
