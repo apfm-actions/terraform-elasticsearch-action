@@ -51,6 +51,10 @@ For example, if your define the following `action.yaml`:
 - gp2
 - io1
 
+**tags**
+
+- More information about the valid options to be used, can be found [here](https://aplaceformom.atlassian.net/wiki/spaces/TECHOPS/pages/1049133728/2020+AWS+Tagging+Standards) 
+
 ## Test executed:
 
 - Add more nodes to a cluster previously created: 
