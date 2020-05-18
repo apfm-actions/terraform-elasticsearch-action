@@ -95,7 +95,7 @@ resource "aws_security_group" "es_security_group" {
     protocol  = "tcp"
 
     #cidr_blocks = data.aws_vpc.selected.cidr_block
-    cidr_blocks = concat([data.aws_vpc.selected.cidr_block], split(",", var.es_source_ip))
+    cidr_blocks = ( var.es_source_ip != null ? [data.aws_vpc.selected.cidr_block] : concat([data.aws_vpc.selected.cidr_block], split(",", var.es_source_ip)) ) 
   }
 
   tags = local.common_tags
@@ -128,7 +128,7 @@ resource "aws_elasticsearch_domain" "es_domain" {
     volume_size = (var.es_ebs_enabled == true ? var.es_volume_size : null)
   }
 
-  access_policies = (var.es_vpc == true ? data.aws_iam_policy_document.es_vpc_source.json : data.aws_iam_policy_document.es_public_source.json)
+  #access_policies = (var.es_vpc == true ? data.aws_iam_policy_document.es_vpc_source.json : data.aws_iam_policy_document.es_public_source.json)
 
   log_publishing_options {
     cloudwatch_log_group_arn = aws_cloudwatch_log_group.es_log_group.arn
