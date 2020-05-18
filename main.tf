@@ -95,7 +95,7 @@ resource "aws_security_group" "es_security_group" {
     protocol  = "tcp"
 
     #cidr_blocks = data.aws_vpc.selected.cidr_block
-    cidr_blocks = ( var.es_source_ip != null ? [data.aws_vpc.selected.cidr_block] : concat([data.aws_vpc.selected.cidr_block], split(",", var.es_source_ip)) ) 
+    cidr_blocks = (var.es_source_ip != null ? [data.aws_vpc.selected.cidr_block] : concat([data.aws_vpc.selected.cidr_block], split(",", var.es_source_ip)))
   }
 
   tags = local.common_tags
@@ -110,6 +110,12 @@ resource "aws_elasticsearch_domain" "es_domain" {
   cluster_config {
     instance_type  = var.es_instance_type
     instance_count = var.es_instance_count
+
+    zone_awareness_enabled = (var.es_instance_count < 2 ? false : true)
+
+    zone_awareness_config {
+      availability_zone_count = (var.es_instance_count < 3 ? 2 : var.es_instance_count)
+    }
   }
 
   snapshot_options {
@@ -117,10 +123,14 @@ resource "aws_elasticsearch_domain" "es_domain" {
   }
 
   vpc_options {
-    subnet_ids = (var.es_vpc == true ? split(",", var.network_private_subnets) : null) 
+    # MULTIPLES AZ ARE NOT SUPPORTED BY AWS PROVIDER, FIX IN A FUTURE
+    subnet_ids = (var.es_vpc == true && var.es_instance_count >= 3 ? split(",", var.network_private_subnets) : (
+      var.es_vpc == true ? [element(split(",", var.network_private_subnets), 0)] : null
+    ))
+    #subnet_ids = [(var.es_vpc == true ? element(split(",", var.network_private_subnets), 0) : null)]
 
     security_group_ids = (var.es_vpc == true ? [aws_security_group.es_security_group.id] : null)
-  }  
+  }
 
   ebs_options {
     ebs_enabled = var.es_ebs_enabled
@@ -140,10 +150,10 @@ resource "aws_elasticsearch_domain" "es_domain" {
 
 locals {
   common_tags = {
-    app: var.app,
-    env: terraform.workspace,
-    budget: var.budget,
-    repo: var.repo,
+    app : var.app,
+    env : terraform.workspace,
+    budget : var.budget,
+    repo : var.repo,
     es_domain : var.es_domain,
     project : var.project_name,
     owner : var.project_owner,
