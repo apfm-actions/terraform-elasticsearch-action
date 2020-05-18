@@ -123,7 +123,7 @@ resource "aws_elasticsearch_domain" "es_domain" {
   }
 
   vpc_options {
-    # MULTIPLES AZ ARE NOT SUPPORTED BY AWS PROVIDER, FIX IN A FUTURE
+
     subnet_ids = (var.es_vpc == true && var.es_instance_count >= 3 ? split(",", var.network_private_subnets) : (
       var.es_vpc == true ? [element(split(",", var.network_private_subnets), 0)] : null
     ))

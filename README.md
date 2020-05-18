@@ -55,10 +55,6 @@ For example, if your define the following `action.yaml`:
 
 - More information about the valid options to be used, can be found [here](https://aplaceformom.atlassian.net/wiki/spaces/TECHOPS/pages/1049133728/2020+AWS+Tagging+Standards) 
 
-## Know issues:
-
-- Multiples AZ are not available for a lack of the provider, https://github.com/terraform-providers/terraform-provider-aws/issues/4038#issuecomment-472304026.
-
 ## Test executed:
 
 - Add more nodes to a cluster previously created: 

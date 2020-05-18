@@ -100,8 +100,12 @@ inputs:
 
 outputs:
   es_arn:
-    description: 'Name of the created function'
-  
+    description: 'Elasticsearch service ARN'
+  es_endpoint:
+    description: 'Elasticsearch service endpoint'
+  es_kibana_endpoint:
+    description: 'Elasticsearch service Kibana endpoint'
+    
 runs:
   using: docker
   image: Dockerfile
