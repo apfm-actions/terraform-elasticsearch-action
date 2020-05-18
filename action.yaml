@@ -17,6 +17,18 @@ inputs:
     description: 'Project email address'
     required: true
 
+  repo:
+    description: 'GITHUB Repository'
+    required: true
+
+  budget:
+    description: 'Budget'
+    required: true
+
+  app: 
+    description: 'App Name'
+    required: true
+
   destroy:
     description: 'Runs Terraform destroy to destroy existing resources created by this action'
     required: false

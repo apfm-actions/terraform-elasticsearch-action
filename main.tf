@@ -63,7 +63,7 @@ data "aws_iam_policy_document" "es_public_source" {
 }
 
 resource "aws_security_group" "es_security_group" {
-  name        = "vpc-${var.network_vpc_id}-elasticsearch-${var.es_domain}"
+  name        = "${var.network_vpc_id}-elasticsearch-${var.es_domain}"
   description = "Managed by terraform-elasticsearch-action"
   vpc_id      = var.network_vpc_id
 
@@ -112,6 +112,10 @@ resource "aws_elasticsearch_domain" "es_domain" {
 
 locals {
   common_tags = {
+    app: var.app,
+    env: terraform.workspace,
+    budget: var.budget,
+    repo: var.repo,
     es_domain : var.es_domain,
     project : var.project_name,
     owner : var.project_owner,

@@ -60,6 +60,7 @@ For example, if your define the following `action.yaml`:
 - Upsize nodes:
   - Result: Nodes were resized without interrupt service.
 - Downsize nodes:
+  - Result: Nodes were downsized without interruption.
 
 
 ## URL used to create this action
