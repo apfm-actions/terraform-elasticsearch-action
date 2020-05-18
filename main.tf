@@ -4,8 +4,13 @@ data "aws_region" "current" {}
 
 data "aws_caller_identity" "current" {}
 
+data "aws_vpc" "selected" {
+  id = var.network_vpc_id
+}
+
 resource "aws_cloudwatch_log_group" "es_log_group" {
   name = "${var.es_domain}-log_group"
+  tags = local.common_tags
 }
 
 resource "aws_cloudwatch_log_resource_policy" "es_log_resource_policy" {
@@ -57,6 +62,23 @@ data "aws_iam_policy_document" "es_public_source" {
   }
 }
 
+resource "aws_security_group" "es_security_group" {
+  name        = "vpc-${var.network_vpc_id}-elasticsearch-${var.es_domain}"
+  description = "Managed by terraform-elasticsearch-action"
+  vpc_id      = var.network_vpc_id
+
+  ingress {
+    from_port = 443
+    to_port   = 443
+    protocol  = "tcp"
+
+    #cidr_blocks = data.aws_vpc.selected.cidr_block
+    cidr_blocks = concat([data.aws_vpc.selected.cidr_block], split(",", var.es_source_ip))
+  }
+
+  tags = local.common_tags
+}
+
 # Cluster creation
 
 resource "aws_elasticsearch_domain" "es_domain" {
@@ -64,7 +86,7 @@ resource "aws_elasticsearch_domain" "es_domain" {
   elasticsearch_version = var.es_version
 
   cluster_config {
-    instance_type = var.es_instance_type
+    instance_type  = var.es_instance_type
     instance_count = var.es_instance_count
   }
 
@@ -85,11 +107,15 @@ resource "aws_elasticsearch_domain" "es_domain" {
     log_type                 = "INDEX_SLOW_LOGS"
   }
 
-  tags = {
-    es_domain  = var.es_domain
-    project    = var.project_name
-    owner      = var.project_owner
-    email      = var.project_email
-    created_by = "terraform-elasticsearch-action"
+  tags = local.common_tags
+}
+
+locals {
+  common_tags = {
+    es_domain : var.es_domain,
+    project : var.project_name,
+    owner : var.project_owner,
+    email : var.project_email,
+    created_by : "terraform-elasticsearch-action"
   }
 }

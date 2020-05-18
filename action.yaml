@@ -71,8 +71,18 @@ inputs:
     default: 'INDEX_SLOW_LOGS'
     required: true
 
+  es_vpc:
+    description: 'VPC Network mode'
+    default: null
+    required: false
+
   es_source_ip:
-    description: 'List of IPs valid to connect to the cluster (Only Public cluster)'
+    description: 'List of IPs valid to connect to the cluster, separated by commas'
+    default: null
+    required: false
+
+  es_source_resource:
+    description: 'List of resources allowed to connect to the cluster, separated by commas'
     default: null
     required: false
 
