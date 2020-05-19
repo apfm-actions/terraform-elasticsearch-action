@@ -114,7 +114,7 @@ resource "aws_elasticsearch_domain" "es_domain" {
     zone_awareness_enabled = (var.es_instance_count < 2 ? false : true)
 
     zone_awareness_config {
-      availability_zone_count = (var.es_instance_count < 3 ? 2 : var.es_instance_count)
+      availability_zone_count = (var.es_instance_count < 3 ? (var.es_instance_count == 2 ? 2 : null ) : 3)
     }
   }
 
