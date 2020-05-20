@@ -1,7 +1,11 @@
-output "es" {
-    value = {
-        arn = aws_elasticsearch_domain.es_domain.arn
-        endpoint = aws_elasticsearch_domain.es_domain.endpoint
-        kibana_endpoint = aws_elasticsearch_domain.es_domain.kibana_endpoint
-    } 
+output "arn" {
+  value = aws_elasticsearch_domain.es_domain.arn
+}
+
+output "endpoint" {
+  value = aws_elasticsearch_domain.es_domain.endpoint
+}
+
+output "kibana" {
+  value = var.kibana ? aws_elasticsearch_domain.es_domain.kibana_endpoint : ""
 }

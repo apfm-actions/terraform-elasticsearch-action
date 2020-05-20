@@ -1,111 +1,53 @@
 name: Elasticsearch Deploy
 description: Deploy an AWS Elasctisearch service cluster using Terraform
 inputs:
-  workspace:
-    description: 'Terraform Workspace'
-    required: true
-
-  project:
-    description: 'Project this Service is part of'
-    required: true
-
-  owner:
-    description: 'Project owner/team'
-    required: true
-
-  email:
-    description: 'Project email address'
-    required: true
-
-  repo:
-    description: 'GITHUB Repository'
-    required: true
-
-  budget:
-    description: 'Budget'
-    required: true
-
-  app: 
-    description: 'App Name'
-    required: true
-
-  destroy:
-    description: 'Runs Terraform destroy to destroy existing resources created by this action'
-    required: false
-    default: 'false'
-
-  region:
-    description: 'AWS region to deploy to'
-    required: false
-    default: 'us-west-2'
-
-  es_domain:
-    description: 'AWS Elasticsearch service domain'
-    required: true
-
-  es_version:
+  version:
     description: 'Elasticsearch version number'
-    required: true
     default: '7.4'
 
-  es_instance_type:
+  instance_type:
     description: 'AWS Instance Type to deploy the cluster'
     default: 't2.medium.elasticsearch'
-    required: true
 
-  es_instance_count:
+  instance_count:
     description: 'How many instance will compound this cluster'
     default: '1'
-    required: true
 
-  es_snapshot_hour:
+  snapshot_hour:
     description: 'Hour during which the service takes an automated daily snapshot of the indices in the domain. UTC Time'
     default: '23'
-    required: true
 
-  es_ebs_enabled:
+  ebs:
     description: 'Support EBS Storage'
-    default: 'true'
-    required: true
+    default: true
 
-  es_volume_type:
+  volume_type:
     description: 'Kind of storage to use (standard, gp2, io1)'
     default: 'gp2'
-    required: false
 
-  es_volume_size:
-    description: 'Size of the volume for ES Storage'
+  volume_size:
+    description: 'Size of the volume for ES Storage in gigs'
     default: 10
-    required: false
 
-  es_log_type:
+  log_type:
     description: 'A type of Elasticsearch log. Valid values: INDEX_SLOW_LOGS, SEARCH_SLOW_LOGS, ES_APPLICATION_LOGS'
     default: 'INDEX_SLOW_LOGS'
-    required: true
 
-  es_vpc:
-    description: 'VPC Network mode'
+  public:
+    description: 'Enable public ElasticSearch instance'
     default: false
-    required: true
 
-  es_source_ip:
-    description: 'List of IPs valid to connect to the cluster, separated by commas'
-    default: null
-    required: false
-
-  es_source_role:
-    description: 'List of resources allowed to connect to the cluster, separated by commas'
-    default: null
-    required: false
+  allowed_ips:
+    description: 'List of IPs valid to connect to the cluster, separated by commas when [public only]'
 
 outputs:
-  es_arn:
+  arn:
     description: 'Elasticsearch service ARN'
-  es_endpoint:
+  endpoint:
     description: 'Elasticsearch service endpoint'
-  es_kibana_endpoint:
+  kibana_endpoint:
     description: 'Elasticsearch service Kibana endpoint'
-    
+
 runs:
   using: docker
   image: Dockerfile

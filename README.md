@@ -13,14 +13,14 @@ into terraform variables.
 
 For example, if your define the following `action.yaml`:
 ```yaml
-  - name: Shared Info
-    id: project-base
+  - name: My Project
+    id: project
     uses: aplaceformom/terraform-project-base-action@master
     with:
       workspace: dev
-      project: es-example-action
-      owner: techops
-      email: alex.moreno@aplaceformom.com
+      project: my-project
+      owner: myteam
+      email: myteam@example.org
       remote_state_bucket: apfm-terraform-remotestate
       remote_lock_table: terraform-statelock
       shared_state_key: terraform/apfm.tfstate
@@ -28,34 +28,55 @@ For example, if your define the following `action.yaml`:
   - name: Elasticsearch Deploy
     uses: aplaceformom/terraform-elasticsearch-action@master
     with:
-      es_domain: demo-elasticsearch-actions # <--- Domain Name 
-      es_source_ip: 10.0.0.0/8,170.150.57.105/32 # <--- IP Allowed to connect
-      es_source_resource: null 
-      es_instance_type: 'm3.xlarge.elasticsearch'
-      es_instance_count: 2
-      es_vpc: true
       aws_assume_role: arn:aws:iam::${{ steps.project-base.outputs.account_id }}:role/TerraformApply
       aws_external_id: ${{ steps.project-base.outputs.external_id }}
-      destroy: false
 ```
 
-**es_instance_type:** (Valid options)
+### version
+ElasticSearch engine version
+- default: 7.4
 
-```
-[i3.2xlarge.elasticsearch, m5.4xlarge.elasticsearch, i3.4xlarge.elasticsearch, m3.large.elasticsearch, r4.16xlarge.elasticsearch, t2.micro.elasticsearch, m4.large.elasticsearch, d2.2xlarge.elasticsearch, m5.large.elasticsearch, i3.8xlarge.elasticsearch, i3.large.elasticsearch, d2.4xlarge.elasticsearch, t2.small.elasticsearch, c4.2xlarge.elasticsearch, c5.2xlarge.elasticsearch, c4.4xlarge.elasticsearch, d2.8xlarge.elasticsearch, c5.4xlarge.elasticsearch, m3.medium.elasticsearch, c4.8xlarge.elasticsearch, c4.large.elasticsearch, c5.xlarge.elasticsearch, c5.large.elasticsearch, c4.xlarge.elasticsearch, c5.9xlarge.elasticsearch, d2.xlarge.elasticsearch, t2.medium.elasticsearch, c5.18xlarge.elasticsearch, i3.xlarge.elasticsearch, i2.xlarge.elasticsearch, r3.2xlarge.elasticsearch, r4.2xlarge.elasticsearch, m5.xlarge.elasticsearch, m4.10xlarge.elasticsearch, r3.4xlarge.elasticsearch, r5.2xlarge.elasticsearch, m5.12xlarge.elasticsearch, m4.xlarge.elasticsearch, r4.4xlarge.elasticsearch, m5.24xlarge.elasticsearch, m3.xlarge.elasticsearch, i3.16xlarge.elasticsearch, r5.4xlarge.elasticsearch, ultrawarm1.large.elasticsearch, m3.2xlarge.elasticsearch, r3.8xlarge.elasticsearch, r3.large.elasticsearch, r5.xlarge.elasticsearch, m4.2xlarge.elasticsearch, r4.8xlarge.elasticsearch, r4.xlarge.elasticsearch, r4.large.elasticsearch, r5.12xlarge.elasticsearch, m5.2xlarge.elasticsearch, i2.2xlarge.elasticsearch, r3.xlarge.elasticsearch, r5.24xlarge.elasticsearch, r5.large.elasticsearch, m4.4xlarge.elasticsearch]
-```
+### ebs
+Enable ebs storage.
+- default: true
 
-**es_volume_type:** 
+### instance_type
+The ElasticSearch instance type to use. See: https://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/aes-supported-instance-types.html
+- default: t2.medium.elasticsearch
 
-- standard
-- gp2
-- io1
+### instance_count
+The number of nodes to run in your instance. Note: enabling 3 instances will
+make the cluster multi-availability-zone aware.
+- default: 1
 
-**tags**
+### volume_type
+ElasticSearch Volume type (standard, gp2, io1)
+- default: gp2
+
+### volume_size
+Per instance volume size (in gigs).
+- default: 10
+
+### log_type
+A type of Elasticsearch log. Valid values: INDEX_SLOW_LOGS, SEARCH_SLOW_LOGS, ES_APPLICATION_LOGS
+- default: INDEX_SLOW_LOGS
+
+### public
+Make ElasticSearch accessible publicly (dangerous). If you enable this option
+then the ElasticSearch cluster will be made available on a public IP.  You
+should configured the `allowed_ips` to restrict access to the instance.
+- default: false
+
+### allowed_ips
+A comman seperated list of network maps (in CIDR format) which should be
+granted access to this ElasticSearch instance (only valid if public = true).
+- example: x.x.x.x/32,y.y.y.y/24
+- default: N/A
 
 - More information about the valid options to be used, can be found [here](https://aplaceformom.atlassian.net/wiki/spaces/TECHOPS/pages/1049133728/2020+AWS+Tagging+Standards) 
 
-## Test executed:
+Test executed
+-------------
 
 - Add more nodes to a cluster previously created: 
   - Result: Nodes were added without interrupt service.
@@ -66,8 +87,8 @@ For example, if your define the following `action.yaml`:
 - Downsize nodes:
   - Result: Nodes were downsized without interruption.
 
-
-## URL used to create this action
+References
+----------
 
 - https://www.terraform.io/docs/providers/aws/r/elasticsearch_domain.html
 - https://docs.aws.amazon.com/cli/latest/reference/es/create-elasticsearch-domain.html
