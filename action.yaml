@@ -39,10 +39,6 @@ inputs:
     required: false
     default: 'us-west-2'
 
-  es_domain:
-    description: 'AWS Elasticsearch service domain'
-    required: true
-
   es_version:
     description: 'Elasticsearch version number'
     required: true
@@ -85,7 +81,7 @@ inputs:
 
   es_vpc:
     description: 'VPC Network mode'
-    default: false
+    default: true
     required: true
 
   es_source_ip:

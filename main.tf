@@ -9,7 +9,7 @@ data "aws_vpc" "selected" {
 }
 
 resource "aws_cloudwatch_log_group" "es_log_group" {
-  name = "${var.es_domain}-log_group"
+  name = "${var.project_name}-log_group"
   tags = local.common_tags
 }
 
@@ -36,7 +36,7 @@ data "aws_iam_policy_document" "es_log_resource_policy" {
 }
 
 resource "aws_cloudwatch_log_resource_policy" "es_log_resource_policy" {
-  policy_name = "${var.es_domain}-es_log_resource_policy"
+  policy_name = "${var.project_name}-es_log_resource_policy"
 
   policy_document = data.aws_iam_policy_document.es_log_resource_policy.json
 }
@@ -54,7 +54,7 @@ data "aws_iam_policy_document" "es_public_source" {
     ]
 
     resources = [
-      "arn:aws:es:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:domain/${var.es_domain}/*"
+      "arn:aws:es:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:domain/${var.project_name}/*"
     ]
 
     condition {
@@ -79,13 +79,13 @@ data "aws_iam_policy_document" "es_vpc_source" {
     ]
 
     resources = [
-      "arn:aws:es:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:domain/${var.es_domain}/*"
+      "arn:aws:es:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:domain/${var.project_name}/*"
     ]
   }
 }
 
 resource "aws_security_group" "es_security_group" {
-  name        = "${var.network_vpc_id}-elasticsearch-${var.es_domain}"
+  name        = "${var.network_vpc_id}-elasticsearch-${var.project_name}"
   description = "Managed by terraform-elasticsearch-action"
   vpc_id      = var.network_vpc_id
 
@@ -104,7 +104,7 @@ resource "aws_security_group" "es_security_group" {
 # Cluster creation
 
 resource "aws_elasticsearch_domain" "es_domain" {
-  domain_name           = var.es_domain
+  domain_name           = var.project_name
   elasticsearch_version = var.es_version
 
   cluster_config {
@@ -154,7 +154,7 @@ locals {
     env : terraform.workspace,
     budget : var.budget,
     repo : var.repo,
-    es_domain : var.es_domain,
+    es_domain : var.project_name,
     project : var.project_name,
     owner : var.project_owner,
     email : var.project_email,

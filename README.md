@@ -28,15 +28,8 @@ For example, if your define the following `action.yaml`:
   - name: Elasticsearch Deploy
     uses: aplaceformom/terraform-elasticsearch-action@master
     with:
-      es_domain: demo-elasticsearch-actions # <--- Domain Name 
-      es_source_ip: 10.0.0.0/8,170.150.57.105/32 # <--- IP Allowed to connect
-      es_source_resource: null 
-      es_instance_type: 'm3.xlarge.elasticsearch'
-      es_instance_count: 2
-      es_vpc: true
       aws_assume_role: arn:aws:iam::${{ steps.project-base.outputs.account_id }}:role/TerraformApply
       aws_external_id: ${{ steps.project-base.outputs.external_id }}
-      destroy: false
 ```
 
 **es_instance_type:** (Valid options)
