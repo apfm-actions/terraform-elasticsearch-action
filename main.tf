@@ -11,7 +11,7 @@ data "aws_subnet" "selected" {
 }
 
 locals {
-  subnet_ids = element(chunklist(data.aws_subnet.selected[*].id), min(var.instance_count, 3)), 0)
+  subnet_ids = element(chunklist(data.aws_subnet.selected[*].id), min(var.instance_count, 3), 0)
   tags = {
     app : var.project_name,
     env : terraform.workspace,
