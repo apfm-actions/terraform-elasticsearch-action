@@ -7,5 +7,5 @@ output "endpoint" {
 }
 
 output "kibana" {
-  value = var.kibana ? aws_elasticsearch_domain.default.kibana_endpoint : ""
+  value = aws_elasticsearch_domain.default.kibana_endpoint : ""
 }
