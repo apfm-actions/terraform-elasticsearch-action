@@ -1,7 +1,7 @@
 name: Elasticsearch Deploy
 description: Deploy an AWS Elasctisearch service cluster using Terraform
 inputs:
-  version:
+  engine_version:
     description: 'Elasticsearch version number'
     default: '7.4'
 

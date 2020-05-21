@@ -32,7 +32,7 @@ For example, if your define the following `action.yaml`:
       aws_external_id: ${{ steps.project-base.outputs.external_id }}
 ```
 
-### version
+### engine_version
 ElasticSearch engine version
 - default: 7.4
 
