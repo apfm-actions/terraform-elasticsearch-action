@@ -3,7 +3,7 @@ output "arn" {
 }
 
 output "endpoint" {
-  value = aws_elasticsearch_domain.defaul.endpoint
+  value = aws_elasticsearch_domain.default.endpoint
 }
 
 output "kibana" {
