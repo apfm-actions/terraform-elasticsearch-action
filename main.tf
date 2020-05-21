@@ -64,7 +64,7 @@ resource "aws_elasticsearch_domain" "default" {
 }
 
 resource "aws_security_group" "default" {
-  name        = "${var.project-name}-elasticsearch"
+  name        = "${var.project_name}-elasticsearch"
   description = "Managed by terraform-elasticsearch-action"
   vpc_id      = var.network_vpc_id
 

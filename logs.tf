@@ -4,7 +4,7 @@ resource "aws_cloudwatch_log_group" "default" {
 }
 
 resource "aws_cloudwatch_log_resource_policy" "logging" {
-  policy_name     = "${var.project-name}-logging-policy"
+  policy_name     = "${var.project_name}-logging-policy"
   policy_document = data.aws_iam_policy_document.logging.json
 }
 
