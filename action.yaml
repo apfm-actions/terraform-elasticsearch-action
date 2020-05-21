@@ -39,6 +39,7 @@ inputs:
 
   allowed_ips:
     description: 'List of IPs valid to connect to the cluster, separated by commas when [public only]'
+    default: ''
 
 outputs:
   arn:
