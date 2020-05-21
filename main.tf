@@ -28,7 +28,7 @@ resource "aws_elasticsearch_domain" "default" {
   domain_name           = var.project_name
   elasticsearch_version = var.engine_version
 
-  access_policies = var.public ? data.aws_iam_policy_document.public.json : null
+  access_policies = var.public ? data.aws_iam_policy_document.allowed_ips.json : null
 
   cluster_config {
     instance_type  = var.instance_type
