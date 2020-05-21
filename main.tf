@@ -45,7 +45,7 @@ resource "aws_elasticsearch_domain" "default" {
   }
 
   vpc_options {
-    subnet_ids         = var.public ? null : data.aws_subnet.selected[*].id
+    subnet_ids         = var.public ? null : local.subnet_ids
     security_group_ids = var.public ? null : [aws_security_group.default.id]
   }
 
