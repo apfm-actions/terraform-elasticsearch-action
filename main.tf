@@ -15,7 +15,6 @@ locals {
   tags = {
     app : var.project_name,
     env : terraform.workspace,
-    budget : var.budget,
     repo : var.github_repository
     project : var.project_name,
     owner : var.project_owner,
