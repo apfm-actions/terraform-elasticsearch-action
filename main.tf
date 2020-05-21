@@ -73,7 +73,7 @@ resource "aws_security_group" "default" {
     from_port = 443
     to_port   = 443
     protocol  = "tcp"
-    cidr_blocks = var.public ? split(var.allowed_ips) : compact(data.aws_subnet.selected[*].cidr_block)
+    cidr_blocks = var.public ? local.allowed_ips : compact(data.aws_subnet.selected[*].cidr_block)
   }
 
   tags = local.tags
