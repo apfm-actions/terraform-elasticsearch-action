@@ -48,6 +48,10 @@ outputs:
     description: 'Elasticsearch service endpoint'
   kibana_endpoint:
     description: 'Elasticsearch service Kibana endpoint'
+  access_policy_arn:
+    description: 'ARN of policy granting access to this ES instance'
+  access_policy_name:
+    description: 'Name of policy granting access to this ES instance'
 
 runs:
   using: docker
