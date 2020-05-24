@@ -1,10 +1,10 @@
 resource "aws_cloudwatch_log_group" "default" {
-  name = "${var.project_name}-logs"
+  name = "${var.github_project}-logs"
   tags = local.tags
 }
 
 resource "aws_cloudwatch_log_resource_policy" "logging" {
-  policy_name     = "${var.project_name}-logging-policy"
+  policy_name     = "${var.github_project}-logging-policy"
   policy_document = data.aws_iam_policy_document.logging.json
 }
 

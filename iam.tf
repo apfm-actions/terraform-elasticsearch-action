@@ -1,5 +1,5 @@
 resource "aws_iam_policy" "default" {
-  name   = "ApfmElasticSearch-${var.project_name}"
+  name   = "ApfmElasticSearch-${var.github_project}"
   policy = data.aws_iam_policy_document.default.json
 }
 
