@@ -61,6 +61,8 @@ resource "aws_elasticsearch_domain" "default" {
   }
 
   tags = local.tags
+
+  depends_on = [aws_cloudwatch_log_resource_policy.logging]
 }
 
 resource "aws_security_group" "default" {
