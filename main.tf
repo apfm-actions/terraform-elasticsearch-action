@@ -11,7 +11,8 @@ data "aws_subnet" "selected" {
 }
 
 locals {
-  subnet_ids = element(chunklist(data.aws_subnet.selected[*].id, min(var.instance_count, 3)), 0)
+  subnet_ids  = element(chunklist(data.aws_subnet.selected[*].id, min(var.instance_count, 3)), 0)
+  allowed_ips = var.allowed_ips != "" ? split(",", var.allowed_ips) : []
   tags = {
     app : var.github_project,
     env : terraform.workspace,
@@ -74,7 +75,14 @@ resource "aws_security_group" "default" {
     from_port = 443
     to_port   = 443
     protocol  = "tcp"
-    cidr_blocks = var.public ? local.allowed_ips : compact(data.aws_subnet.selected[*].cidr_block)
+    cidr_blocks = compact(concat(data.aws_subnet.selected[*].cidr_block, local.allowed_ips))
+  }
+
+  ingress {
+    from_port = 80
+    to_port   = 80
+    protocol  = "tcp"
+    cidr_blocks = compact(concat(data.aws_subnet.selected[*].cidr_block, local.allowed_ips))
   }
 
   tags = local.tags

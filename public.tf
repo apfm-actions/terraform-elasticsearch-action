@@ -1,6 +1,3 @@
-locals {
-  allowed_ips = var.allowed_ips != "" ? split(var.allowed_ips) : []
-}
 data "aws_iam_policy_document" "allowed_ips" {
   statement {
     principals {
