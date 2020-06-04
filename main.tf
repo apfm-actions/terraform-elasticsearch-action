@@ -26,7 +26,7 @@ locals {
 
 # Cluster creation
 resource "aws_elasticsearch_domain" "default" {
-  domain_name           = var.project_name
+  domain_name           = var.github_project
   elasticsearch_version = var.engine_version
 
   access_policies = var.public ? data.aws_iam_policy_document.allowed_ips.json : null
@@ -67,7 +67,7 @@ resource "aws_elasticsearch_domain" "default" {
 }
 
 resource "aws_security_group" "default" {
-  name        = "${var.project_name}-elasticsearch"
+  name        = "${var.github_project}-elasticsearch"
   description = "Managed by terraform-elasticsearch-action"
   vpc_id      = var.network_vpc_id
 
