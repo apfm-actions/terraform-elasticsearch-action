@@ -84,5 +84,12 @@ resource "aws_security_group" "default" {
     cidr_blocks = compact(concat(data.aws_subnet.selected[*].cidr_block, local.allowed_ips))
   }
 
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
   tags = local.tags
 }
