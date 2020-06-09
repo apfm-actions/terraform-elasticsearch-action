@@ -29,7 +29,7 @@ resource "aws_elasticsearch_domain" "default" {
   domain_name           = var.github_project
   elasticsearch_version = var.engine_version
 
-  access_policies = var.public ? data.aws_iam_policy_document.allowed_ips.json : null
+  access_policies = var.public ? data.aws_iam_policy_document.public.json : data.aws_iam_policy_document.vpc.json
 
   cluster_config {
     instance_type  = var.instance_type
