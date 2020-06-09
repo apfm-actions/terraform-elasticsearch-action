@@ -6,16 +6,22 @@ resource "aws_iam_policy" "default" {
 data "aws_iam_policy_document" "default" {
   statement {
     effect    = "Allow"
-    resources = [aws_elasticsearch_domain.default.arn]
+    resources = [aws_elasticsearch_domain.default.arn ]
+    actions   = ["es:*"]
+  }
+
+  statement {
+    effect    = "Deny"
+    resources = [aws_elasticsearch_domain.default.arn ]
     actions   = [
-      "es:ESHttpHead",
-      "es:DescribeElasticsearchDomain",
-      "es:ESHttpPost",
-      "es:ESHttpGet",
-      "es:ESHttpPatch",
-      "es:ListTags",
-      "es:ESHttpDelete",
-      "es:ESHttpPut"
+      "es: DeleteElasticsearchDomain",
+      "es: CreateElasticsearchDomain"
     ]
+  }
+
+  statement {
+    effect    = "Allow"
+    resources = ["${aws_elasticsearch_domain.default.arn}/*"]
+    actions   = ["es:*"]
   }
 }
