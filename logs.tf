@@ -1,5 +1,5 @@
 resource "aws_cloudwatch_log_group" "default" {
-  name = "${var.github_project}-logs"
+  name = "${var.github_project}-es-logs"
   tags = local.tags
 }
 
