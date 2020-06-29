@@ -4,7 +4,7 @@ This repository is home to an _Elasticsearch_ GitHub action used as a template f
 rapid development of Terraform based actions. The goal of this model is to
 provide a common framework for deploying modularized infrastructure with
 configuration paramters supplied as part of the GitHub workflow.
-
+ 
 Usage
 -----
 Simply clone this repository and start developing your Terraform IAC. The
