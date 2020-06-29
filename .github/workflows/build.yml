@@ -17,6 +17,9 @@ jobs:
         node-version: [12.x]
 
     steps:
+      - name: Get code
+        uses: actions/checkout@v2
+
       - name: Build, tag, and push image to Docker hub
         uses: docker/build-push-action@v1
         with:
