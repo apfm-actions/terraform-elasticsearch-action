@@ -58,7 +58,7 @@ resource "aws_elasticsearch_domain" "default" {
 
   log_publishing_options {
     cloudwatch_log_group_arn = aws_cloudwatch_log_group.default.arn
-    log_type                 = "INDEX_SLOW_LOGS"
+    log_type                 = var.log_type #"INDEX_SLOW_LOGS"
   }
 
   tags = local.tags
